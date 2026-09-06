@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:oral-history-memoir:transcript:v1",
+  "title": "Oral History Reviewed Transcript",
+  "type": "object",
+  "required": ["project_id", "session_id", "source_audio", "speakers", "segments"],
+  "properties": {
+    "project_id": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string", "minLength": 1},
+    "source_audio": {
+      "type": "object",
+      "required": ["file", "sha256"],
+      "properties": {
+        "file": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[A-Fa-f0-9]{64}$"},
+        "duration_seconds": {"type": "number", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "transcription": {
+      "type": "object",
+      "properties": {
+        "tool": {"type": "string"},
+        "model": {"type": "string"},
+        "language": {"type": "string"},
+        "diarization": {"type": "string"},
+        "processed_at": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "speakers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["speaker_id", "display_name", "identity_status"],
+        "properties": {
+          "speaker_id": {"type": "string", "minLength": 1},
+          "display_name": {"type": "string", "minLength": 1},
+          "identity_status": {"enum": ["confirmed", "unconfirmed"]},
+          "role": {"enum": ["narrator", "interviewer", "family", "other", "unknown"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["segment_id", "start", "end", "speaker_id", "text", "review_status"],
+        "properties": {
+          "segment_id": {"type": "string", "minLength": 1},
+          "start": {"type": "number", "minimum": 0},
+          "end": {"type": "number", "minimum": 0},
+          "speaker_id": {"type": "string", "minLength": 1},
+          "text": {"type": "string"},
+          "review_status": {"enum": ["raw", "reviewed", "inaudible", "needs_review"]},
+          "allowed_use": {"enum": ["body", "background_only", "anonymize", "do_not_use"]},
+          "notes": {"type": "string"}
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"review_status": {"const": "reviewed"}}},
+            "then": {"required": ["allowed_use"]}
+          }
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
