@@ -1,0 +1,27 @@
+# Local caches and environments
+__pycache__/
+*.py[cod]
+.venv/
+.DS_Store
+.env
+.env.*
+
+# Keep actual client workspaces outside this repository
+memoir-workspaces/
+client-data/
+outputs/
+**/00-consent/
+**/01-audio-original/
+**/02-asr-original/
+**/03-transcript-edited/
+**/04-evidence-cards/
+**/05-drafts/
+**/06-qa/
+**/07-production/
+**/08-delivery-archive/
+*.wav
+*.m4a
+*.mp3
+*.mp4
+*.docx
+*.pdf
