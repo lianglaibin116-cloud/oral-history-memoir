@@ -1,0 +1,4 @@
+interface:
+  display_name: "口述回忆录成书"
+  short_description: "把访谈录音整理成可核验、可审校并可印刷交付的家庭回忆录"
+  default_prompt: "使用 $oral-history-memoir，把访谈录音和转写稿整理为有来源依据、可审校、可印刷交付的家庭回忆录。"
